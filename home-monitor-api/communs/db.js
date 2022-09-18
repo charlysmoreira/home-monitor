@@ -1,13 +1,13 @@
-const mysql = require("mysql2/promise");
+var mariadb = require('mariadb');
 const config = require("../config");
 
-async function query(sql, params) {
-  const connection = await mysql.createConnection(config.db);
-  const [results] = await connection.execute(sql, params);
+var pool = 
+  mariadb.createPool({
+    host: config.db.host, 
+    port : config.db.port,
+    user: config.db.user, 
+    password: config.db.password,
+    database : config.db.database
+  });
 
-  return results;
-}
-
-module.exports = {
-  query,
-};
+module.exports = { pool: pool };

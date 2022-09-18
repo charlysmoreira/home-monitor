@@ -1,23 +1,26 @@
-const db = require("../communs/db");
-const helper = require("../communs/helper");
-const config = require("../config");
+let express = require("express"),
+    router = express.Router(),
+    db = require('../communs/db');
+
+    const query = require('./queries');
+
 const cron = require("node-cron");
 
-async function getAll(page = 1) {
-  const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(
-    `SELECT value, created_at FROM water LIMIT ${offset},${config.listPerPage}`
-  );
-  const data = helper.emptyOrRows(rows);
-  //const meta = { page };
-
-  return { data };
-}
+// GET 
+router.get("/", async (req, res, next) => {
+  let conn;
+  try {
+      const result = await db.pool.query(query.getLastValue);
+      res.send(result);
+  } catch (err) {
+      throw err;
+  } finally {
+      if (conn) return conn.release();
+  }
+});
 
 cron.schedule("* * * * *", () => {
   console.log("Envia mensagem para o fornecedor.");
 });
 
-module.exports = {
-    getAll
-};
+module.exports = router;
