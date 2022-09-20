@@ -10,7 +10,7 @@ const cron = require("node-cron");
 router.get("/", async (req, res, next) => {
   let conn;
   try {
-      const result = await db.pool.query(query.getLastValue);
+      const result = await db.pool.query(query.WATER_LAST_VALUE);
       res.send(result);
   } catch (err) {
       throw err;

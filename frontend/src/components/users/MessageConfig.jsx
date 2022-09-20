@@ -8,13 +8,13 @@ const headerProps = {
     subtitle: "Mensagem de envio para o fornecedor"
 }
 
-const baseUrl = "http://localhost:3001/users"
+const baseUrl = "http://localhost:5000/api/messages"
 const inicialStates = {
-    user : { name: '', phone: '', message: '' },
+    config : { name: '', phoneNumber: '', message: '' },
     list: []
 }
 
-export default class User extends Component {
+export default class MessageConfig extends Component {
 
     state = {...inicialStates}
 
@@ -25,31 +25,32 @@ export default class User extends Component {
     }
 
     clear(){
-        this.setState({user: inicialStates.user})
+        this.setState({config: inicialStates.config})
     }
 
     save(){
-        const user = this.state.user
-        const method = user.id ? 'put' : 'post'
-        const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
+        debugger;
+        const config = this.state.config
+        const method = config.id ? 'put' : 'post'
+        const url = config.id ? `${baseUrl}/${config.id}` : baseUrl
 
-        axios[method](url, user)
+        axios[method](url, config)
             .then(resp => {
                 const list = this.getUpdateList(resp.data)
-                this.setState({user: inicialStates.user, list})
+                this.setState({config: inicialStates.config, list})
         })
     }
 
-    getUpdateList(user, add = true) {
-        const list = this.state.list.filter(u => u.id != user.id)
-        if(add) list.unshift(user)
+    getUpdateList(config, add = true) {
+        const list = this.state.list.filter(u => u.id != config.id)
+        if(add) list.unshift(config)
         return list;
     }
 
     updateField(event) {
-        const user = { ...this.state.user }
-        user[event.target.name] = event.target.value
-        this.setState({ user })
+        const config = { ...this.state.config }
+        config[event.target.name] = event.target.value
+        this.setState({ config })
     }
 
     renderForm() {
@@ -61,7 +62,7 @@ export default class User extends Component {
                             <label>Nome</label>
                             <input type="text" className="form-control"
                                 name="name"
-                                value={this.state.user.name}
+                                value={this.state.config.name}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o nome..." />
                         </div>
@@ -71,8 +72,8 @@ export default class User extends Component {
                         <div className="form-group">
                             <label>Telefone</label>
                             <input type="text" className="form-control"
-                                name="phone"
-                                value={this.state.user.phone}
+                                name="phoneNumber"
+                                value={this.state.config.phoneNumber}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o telefone..." />
                         </div>
@@ -83,7 +84,7 @@ export default class User extends Component {
                             <label>Mensagem</label>
                             <textarea type="text" className="form-control"
                                 name="message"
-                                value={this.state.user.message}
+                                value={this.state.config.message}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite a mensagem..." />
                         </div>
@@ -108,13 +109,13 @@ export default class User extends Component {
         )
     }
 
-    load(user) {
-        this.setState({ user })
+    load(config) {
+        this.setState({ config })
     }
 
-    remove(user) {
-        axios.delete(`${baseUrl}/${user.id}`).then(resp => {
-            const list = this.getUpdateList(user, false)
+    remove(config) {
+        axios.delete(`${baseUrl}/${config.id}`).then(resp => {
+            const list = this.getUpdateList(config, false)
             this.setState({ list })
         })
     }
@@ -139,19 +140,19 @@ export default class User extends Component {
     }
 
     renderRows() {
-        return this.state.list.map(user => {
+        return this.state.list.map(config => {
             return (
-                <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.message}</td>
+                <tr key={config.id}>
+                    <td>{config.id}</td>
+                    <td>{config.phone}</td>
+                    <td>{config.message}</td>
                     <td>
                         <button className="btn btn-warning"
-                            onClick={() => this.load(user)}>
+                            onClick={() => this.load(config)}>
                             <i className="fa fa-pencil"></i>
                         </button>
                         <button className="btn btn-danger ml-2"
-                            onClick={() => this.remove(user)}>
+                            onClick={() => this.remove(config)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>
