@@ -10,7 +10,7 @@ const headerProps = {
 
 const baseUrl = "http://localhost:5000/api/messages"
 const inicialStates = {
-    config : { name: '', phoneNumber: '', message: '' },
+    config : { name: '', phoneNumber: '', message: '', status: '' },
     list: []
 }
 
@@ -125,10 +125,10 @@ export default class MessageConfig extends Component {
             <table className="table mt-4">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nome</th>
                         <th>Telefone</th>
                         <th>Mensagem</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -143,9 +143,10 @@ export default class MessageConfig extends Component {
         return this.state.list.map(config => {
             return (
                 <tr key={config.id}>
-                    <td>{config.id}</td>
-                    <td>{config.phone}</td>
+                    <td>{config.name}</td>
+                    <td>{config.phoneNumber}</td>
                     <td>{config.message}</td>
+                    <td>{config.status}</td>
                     <td>
                         <button className="btn btn-warning"
                             onClick={() => this.load(config)}>

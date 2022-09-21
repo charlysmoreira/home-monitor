@@ -5,6 +5,10 @@ const config = {
       user: "root",
       password: "crvh1234",
       database: "home_monitor",
+    },
+    corsOptions : {
+      origin: 'http://localhost:3000',
+      optionsSuccessStatus: 200
     }
   };
   

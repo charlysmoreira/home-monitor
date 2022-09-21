@@ -2,6 +2,11 @@ const express = require("express");
 const app = express();
 const port = 5000;
 const bodyParser = require("body-parser");
+const cors = require('cors');
+
+const configCors = require('./config');
+
+app.use(cors(configCors.corsOptions));
 
 const water = require("./services/water");
 const config = require("./services/messageConfig");

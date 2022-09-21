@@ -17,21 +17,21 @@ export default class ChartWater extends Component {
     };
 
   componentDidMount() {
-    /*fetch('http://localhost:5000/water')
+    fetch('http://localhost:5000/api/waters')
         .then(res => res.json())
         .then(res => {
             this.setState({
                 data: res
             });
-        });*/
+        });
     }
   render() {
-    
-    const data =  this.state.data.length > 0 ? this.state.data : [1]
+ 
+    let data =  this.state.data.length > 0 ? this.state.data[0].value : [0]
 
     return (
       <ReactHighcharts
-        config={chartWater(data)}
+        config={chartWater([data])}
       ></ReactHighcharts>
     );
   }
@@ -58,12 +58,8 @@ var gaugeOptions = {
       }
   },
 
-  exporting: {
-      enabled: false
-  },
-
   tooltip: {
-      enabled: false
+      enabled: true
   },
 
   yAxis: {
@@ -98,10 +94,7 @@ var gaugeOptions = {
 var chartWater = (data) => ReactHighcharts.Highcharts.merge(gaugeOptions, {
   yAxis: {
       min: 0,
-      max: 20,
-      title: {
-          text: 'Água'
-      }
+      max: 20
   },
 
   credits: {
@@ -114,12 +107,12 @@ var chartWater = (data) => ReactHighcharts.Highcharts.merge(gaugeOptions, {
       dataLabels: {
           format:
               '<div style="text-align:center">' +
-              '<span style="font-size:25px">{y}</span><br/>' +
-              '<span style="font-size:12px;opacity:0.4">L</span>' +
+              '<span style="font-size:25px">{y} </span>' +
+              '<span style="font-size:20px">L</span>' +
               '</div>'
       },
       tooltip: {
-          valueSuffix: 'L'
+          valueSuffix: ' Litros'
       }
   }]
 });
