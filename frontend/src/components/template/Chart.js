@@ -1,12 +1,34 @@
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts/ReactHighstock.src'
-import priceData from '../../asserts/btcdata.json'
 import moment from 'moment'
 
 export default class Chart extends Component {
+
+    state = {
+      data: []
+  };
+
+  componentDidMount() {
+  fetch('http://localhost:5000/api/waters')
+      .then(res => res.json())
+      .then(res => {
+          this.setState({
+              data: res
+          });
+      });
+  }
+
   render() {
-    const options = {style: 'currency', currency: 'USD'};
-    const numberFormat = new Intl.NumberFormat('en-US', options);
+    let result = [0,0];
+
+    const formatValue = (item) => {
+        return [new Date(item.created_at).getTime(), item.value];
+    };
+
+    if (this.state.data.length > 0){
+      result = this.state.data.map(formatValue);
+    }
+ 
     const configPrice = {
       
       yAxis: [{
@@ -14,7 +36,7 @@ export default class Chart extends Component {
 
         labels: {
           formatter: function () {
-            return numberFormat.format(this.value) 
+            return this.value + ' L'
           }
           ,
           x: -15,
@@ -30,7 +52,7 @@ export default class Chart extends Component {
       tooltip: {
         shared: true,
         formatter: function () {
-          return numberFormat.format(this.y, 0) +  '</b><br/>' + moment(this.x).format('MMMM Do YYYY, h:mm')
+          return this.y + ' Listros </b><br/>' + moment(this.x).format('DD/MM/YYYY, HH:mm')
         }
       },
       plotOptions: {
@@ -44,10 +66,10 @@ export default class Chart extends Component {
         selected: 1
       },
       title: {
-        text: `Bitcoin stock price`
+        text: `Histórico de consumo - Água`
       },
       chart: {
-        height: 600,
+        height: 550,
       },
   
       credits: {
@@ -85,12 +107,12 @@ export default class Chart extends Component {
         selected: 4
       },
       series: [{
-        name: 'Price',
+        name: 'Litros de água',
         type: 'spline',
   
-        data: priceData,
+        data: result,
         tooltip: {
-          valueDecimals: 2
+          valueDecimals: 3
         },
   
       }

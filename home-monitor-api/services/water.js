@@ -7,10 +7,23 @@ let express = require("express"),
 const cron = require("node-cron");
 
 // GET 
-router.get("/", async (req, res, next) => {
+router.get("/lastValue", async (req, res, next) => {
   let conn;
   try {
       const result = await db.pool.query(query.WATER_LAST_VALUE);
+      res.send(result);
+  } catch (err) {
+      throw err;
+  } finally {
+      if (conn) return conn.release();
+  }
+});
+
+// GET ALL
+router.get("/", async (req, res, next) => {
+  let conn;
+  try {
+      const result = await db.pool.query(query.WATER_GETALL);
       res.send(result);
   } catch (err) {
       throw err;

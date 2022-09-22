@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactHighcharts from "react-highcharts";
 import HighchartsMore from "highcharts-more";
 import SolidGauge from "highcharts-solid-gauge";
+import moment from 'moment'
 
 export default class ChartWater extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class ChartWater extends Component {
     };
 
   componentDidMount() {
-    fetch('http://localhost:5000/api/waters')
+    fetch('http://localhost:5000/api/waters/lastValue')
         .then(res => res.json())
         .then(res => {
             this.setState({
@@ -27,11 +28,15 @@ export default class ChartWater extends Component {
     }
   render() {
  
-    let data =  this.state.data.length > 0 ? this.state.data[0].value : [0]
+    let data =  this.state.data.length > 0 ? this.state.data[0].value : [0];
+
+    let date = this.state.data.length > 0 ? this.state.data[0].created_at : new Date();
+
+    let currentTime =  moment(new Date(date).getTime()).format('DD/MM/YYYY, HH:mm');
 
     return (
       <ReactHighcharts
-        config={chartWater([data])}
+        config={chartWater([data], currentTime)}
       ></ReactHighcharts>
     );
   }
@@ -91,28 +96,35 @@ var gaugeOptions = {
   }
 };
 
-var chartWater = (data) => ReactHighcharts.Highcharts.merge(gaugeOptions, {
-  yAxis: {
-      min: 0,
-      max: 20
-  },
+var chartWater = (data, currentTime) => ReactHighcharts.Highcharts.merge(gaugeOptions, {
+    title: {
+        text: 'Última coleta </b><br/>' + currentTime,
+        style: {
+            fontSize: '20px',
+            opacity: '0.6'
+        }
+    },
+    yAxis: {
+        min: 0,
+        max: 20
+    },
 
-  credits: {
-      enabled: false
-  },
+    credits: {
+        enabled: false
+    },
 
-  series: [{
-      name: 'Água',
-      data,
-      dataLabels: {
-          format:
-              '<div style="text-align:center">' +
-              '<span style="font-size:25px">{y} </span>' +
-              '<span style="font-size:20px">L</span>' +
-              '</div>'
-      },
-      tooltip: {
-          valueSuffix: ' Litros'
-      }
-  }]
+    series: [{
+        name: 'Água',
+        data,
+        dataLabels: {
+            format:
+                '<div style="text-align:center">' +
+                '<span style="font-size:25px;opacity:0.6">{y} </span>' +
+                '<span style="font-size:20px;opacity:0.6">L</span>' +
+                '</div>'
+        },
+        tooltip: {
+            valueSuffix: ' Litros'
+        }
+    }]
 });
