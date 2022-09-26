@@ -32,8 +32,13 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-cron.schedule("* * * * *", () => {
-  console.log("Envia mensagem para o fornecedor.");
+cron.schedule("* * * * *", async () => {
+    const response = await db.pool.query(query.WATER_LAST_VALUE);
+    let resultValue = response[0].value;
+    console.log(resultValue);
+    if (resultValue <= 1){
+        console.log("Envia mensagem para o fornecedor.");
+    }
 });
 
 module.exports = router;

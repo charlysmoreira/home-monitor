@@ -13,12 +13,6 @@ export default props =>
             <Card title="Consumo de água" color="#2888ca" >
                 <ChartWater/>
             </Card>
-            <Card title="Consumo de gás" color="#2aaaca" >
-                <ChartGas/>
-            </Card>
-            <Card title="Temperatura" color="#fe8a71" >
-                <ChartGas/>
-            </Card>
         </div>
     </Main>
     
