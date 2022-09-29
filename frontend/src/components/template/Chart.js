@@ -52,7 +52,7 @@ export default class Chart extends Component {
       tooltip: {
         shared: true,
         formatter: function () {
-          return this.y + ' Listros </b><br/>' + moment(this.x).format('DD/MM/YYYY, HH:mm')
+          return this.y + ' Litros </b><br/>' + moment(this.x).format('DD/MM/YYYY, HH:mm')
         }
       },
       plotOptions: {

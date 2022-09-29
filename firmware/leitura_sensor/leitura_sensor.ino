@@ -80,5 +80,5 @@ void loop(){
   MYSQL_DISPLAY("\nAguardando...");
   MYSQL_DISPLAY("===============");
  
-  delay(30000);
+  delay(1800000);
 }
