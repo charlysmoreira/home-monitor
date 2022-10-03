@@ -4,17 +4,17 @@ import Main from "../template/Main"
 
 const headerProps = {
     icon: "users",
-    title: "Configurar Mensagem",
+    title: "Fornecedor",
     subtitle: "Mensagem de envio para o fornecedor"
 }
 
-const baseUrl = "http://localhost:5000/api/messages"
+const baseUrl = "http://localhost:5000/api/suppliers"
 const inicialStates = {
-    config : { name: '', phoneNumber: '', message: '', status: '' },
+    data : { name: '', phoneNumber: '', message: '', status: 0 },
     list: []
 }
 
-export default class MessageConfig extends Component {
+export default class Supplier extends Component {
 
     state = {...inicialStates}
 
@@ -25,32 +25,31 @@ export default class MessageConfig extends Component {
     }
 
     clear(){
-        this.setState({config: inicialStates.config})
+        this.setState({data: inicialStates.data})
     }
 
     save(){
-        debugger;
-        const config = this.state.config
-        const method = config.id ? 'put' : 'post'
-        const url = config.id ? `${baseUrl}/${config.id}` : baseUrl
+        const result = this.state.data
+        const method = result.id ? 'put' : 'post'
+        const url = result.id ? `${baseUrl}/${result.id}` : baseUrl
 
-        axios[method](url, config)
+        axios[method](url, result)
             .then(resp => {
-                const list = this.getUpdateList(resp.data)
-                this.setState({config: inicialStates.config, list})
+                this.setState({data: inicialStates.data, list: [resp.data, ...this.state.list]})
         })
     }
 
     getUpdateList(config, add = true) {
-        const list = this.state.list.filter(u => u.id != config.id)
+        const list = this.state.list.filter(u => u.id !== config.id)
         if(add) list.unshift(config)
         return list;
     }
-
+    
     updateField(event) {
-        const config = { ...this.state.config }
-        config[event.target.name] = event.target.value
-        this.setState({ config })
+        const result = { ...this.state.data }
+        result[event.target.name] = event.target.name === "status" ? 
+            event.target.checked ? 1 : 0 : event.target.value
+        this.setState({ data : result })
     }
 
     renderForm() {
@@ -62,7 +61,7 @@ export default class MessageConfig extends Component {
                             <label>Nome</label>
                             <input type="text" className="form-control"
                                 name="name"
-                                value={this.state.config.name}
+                                value={this.state.data.name}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o nome..." />
                         </div>
@@ -73,7 +72,7 @@ export default class MessageConfig extends Component {
                             <label>Telefone</label>
                             <input type="text" className="form-control"
                                 name="phoneNumber"
-                                value={this.state.config.phoneNumber}
+                                value={this.state.data.phoneNumber}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o telefone..." />
                         </div>
@@ -84,9 +83,18 @@ export default class MessageConfig extends Component {
                             <label>Mensagem</label>
                             <textarea type="text" className="form-control"
                                 name="message"
-                                value={this.state.config.message}
+                                value={this.state.data.message}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite a mensagem..." />
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <div className="form-check">
+                            <input type="checkbox" className="form-check-input" id="statusId" 
+                            name="status"
+                            onChange={e => this.updateField(e)}/>
+                            <label className="form-check-label" for="statusId">Status</label>
                         </div>
                     </div>
                 </div>
@@ -109,13 +117,13 @@ export default class MessageConfig extends Component {
         )
     }
 
-    load(config) {
-        this.setState({ config })
+    load(item) {
+        this.setState({ data: item })
     }
 
-    remove(config) {
-        axios.delete(`${baseUrl}/${config.id}`).then(resp => {
-            const list = this.getUpdateList(config, false)
+    remove(item) {
+        axios.delete(`${baseUrl}/${item.id}`).then(resp => {
+            const list = this.getUpdateList(item, false)
             this.setState({ list })
         })
     }
@@ -140,20 +148,20 @@ export default class MessageConfig extends Component {
     }
 
     renderRows() {
-        return this.state.list.map(config => {
+        return this.state.list.map(item => {
             return (
-                <tr key={config.id}>
-                    <td>{config.name}</td>
-                    <td>{config.phoneNumber}</td>
-                    <td>{config.message}</td>
-                    <td>{config.status}</td>
+                <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>{item.phoneNumber}</td>
+                    <td>{item.message}</td>
+                    <td>{item.status === 1 ? "Ativo": 'Inativo'}</td>
                     <td>
                         <button className="btn btn-warning"
-                            onClick={() => this.load(config)}>
+                            onClick={() => this.load(item)}>
                             <i className="fa fa-pencil"></i>
                         </button>
                         <button className="btn btn-danger ml-2"
-                            onClick={() => this.remove(config)}>
+                            onClick={() => this.remove(item)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>

@@ -5,7 +5,7 @@ import ChartGas from "../template/ChartGas"
 import ChartWater from "../template/ChartWater"
 
 export default props =>
-    <Main icon="home" title="Início"
+    <Main icon="desktop" title="Indicador"
         subtitle="Monitoramento residencial.">
         <div className='display-4'>Consumo diário</div>
         <hr />

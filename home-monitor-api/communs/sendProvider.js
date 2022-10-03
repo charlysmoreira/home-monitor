@@ -5,7 +5,7 @@ let config = {
     multidevice: true
 }
 
-function start(client, textMessage, phoneNumber) {
+const start = (client, textMessage, phoneNumber) => {
     client.sendText(`55${phoneNumber}@c.us`, textMessage);
 }
 

@@ -7,11 +7,15 @@ const cron = require("node-cron");
 
 const config = require('./config');
 const water = require("./services/water");
-const messageConfig = require("./services/messageConfig");
+const supplier = require("./services/supplier");
 const prepareSendMessage = require("./services/sendMessage");
 
 cron.schedule(config.cronValue, async () => {
-    prepareSendMessage();
+    try {
+        prepareSendMessage();
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 app.use(cors(config.corsOptions));
@@ -28,7 +32,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use("/api/waters", water);
-app.use("/api/messages", messageConfig);
+app.use("/api/suppliers", supplier);
 
 app.listen(port, () => {
     console.log(`Run server in: http://localhost:${port}`);

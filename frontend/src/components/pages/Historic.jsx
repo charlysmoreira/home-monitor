@@ -3,12 +3,12 @@ import Chart from "../template/Chart"
 import Main from "../template/Main"
 
 const headerProps = {
-    icon: "users",
-    title: "Indicadores",
+    icon: "history",
+    title: "Histórico de consumo",
     subtitle: "Consumo residencial"
 }
 
-export default class ChartTest extends Component {
+export default class Historic extends Component {
     render(){
         return (
             <Main {...headerProps}>

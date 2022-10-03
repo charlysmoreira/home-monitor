@@ -8,7 +8,7 @@ const query = require('./queries');
 router.get("/", async (req, res, next) => {
   let conn;
   try {
-      const result = await db.pool.query(query.MESSAGE_CONFIG_GET_ALL);
+      const result = await db.pool.query(query.SUPPLIER_GET_ALL);
       res.send(result);
   } catch (err) {
       throw err;
@@ -19,10 +19,10 @@ router.get("/", async (req, res, next) => {
 
 // POST 
 router.post("/", async (req, res, next) => {
-    let user = req.body;
+    let supplier = req.body;
     let conn;
     try {
-        const result = await db.pool.query(query.MESSAGE_CONFIG_CREATE, [user.name, user.phoneNumber, user.message]);
+        const result = await db.pool.query(query.SUPPLIER_CREATE, [supplier.name, supplier.phoneNumber, supplier.message, supplier.status]);
         res.send(result);
     } catch (err) {
         throw err;
@@ -33,10 +33,10 @@ router.post("/", async (req, res, next) => {
 
 // PUT 
 router.put("/", async (req, res, next) => {
-    let user = req.body;
+    let supplier = req.body;
     let conn;
     try {
-        const result = await db.pool.query(query.MESSAGE_CONFIG_UPDATE, [user.name, user.phoneNumber, user.message, user.id]);
+        const result = await db.pool.query(query.SUPPLIER_UPDATE, [supplier.name, supplier.phoneNumber, supplier.message, supplier.status, supplier.id]);
         res.send(result);
     } catch (err) {
         throw err;
@@ -47,10 +47,11 @@ router.put("/", async (req, res, next) => {
 
 // DELETE
 router.delete("/", async (req, res, next) => {
+    console.log(req.query)
     let id = req.query.id;
     let conn;
     try {
-        const result = await db.pool.query(query.MESSAGE_CONFIG_DELETE, [id]);
+        const result = await db.pool.query(query.SUPPLIER_DELETE, [id]);
         res.send(result);
     } catch (err) {
         throw err;

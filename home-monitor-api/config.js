@@ -10,7 +10,7 @@ const config = {
       origin: 'http://localhost:3000',
       optionsSuccessStatus: 200
     },
-    cronValue : "1 8-17 * * 1-6"
+    cronValue : "*/30 8-17 * * 1-6"
   };
   
   module.exports = config;

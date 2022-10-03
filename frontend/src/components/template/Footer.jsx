@@ -4,6 +4,6 @@ import React from "react"
 export default props => 
     <footer className="footer">
         <span>
-            Desenvolvido por Charlys
+            Tel: 85 989133645
         </span>
     </footer>

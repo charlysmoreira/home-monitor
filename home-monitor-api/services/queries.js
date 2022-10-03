@@ -1,18 +1,20 @@
 const WATER_GETALL = "SELECT value, created_at FROM water";
 const WATER_LAST_VALUE = "SELECT value, created_at FROM water WHERE created_at = (SELECT MAX(created_at) FROM water)";
+const WATER_TWO_LAST_VALUE = "SELECT value FROM water ORDER BY created_at DESC LIMIT 2";
 
-const MESSAGE_CONFIG_STATUS_ACTIVE = "SELECT * FROM messageconfig WHERE sendMessage = 1";
-const MESSAGE_CONFIG_GET_ALL = "SELECT * FROM messageconfig";
-const MESSAGE_CONFIG_CREATE = "INSERT INTO messageconfig (name, phoneNumber, message) VALUES (?, ?, ?)";
-const MESSAGE_CONFIG_UPDATE = "UPDATE messageconfig SET name = ?, phoneNumber = ?, message = ? WHERE id = ?";
-const MESSAGE_CONFIG_DELETE = "DELETE FROM messageconfig WHERE id = ?";
+const SUPPLIER_STATUS_ACTIVE = "SELECT * FROM supplier WHERE status = 1";
+const SUPPLIER_GET_ALL = "SELECT * FROM supplier";
+const SUPPLIER_CREATE = "INSERT INTO supplier (name, phoneNumber, message, status) VALUES (?, ?, ?, ?)";
+const SUPPLIER_UPDATE = "UPDATE supplier SET name = ?, phoneNumber = ?, message = ?, status = ? WHERE id = ?";
+const SUPPLIER_DELETE = "DELETE FROM supplier WHERE id = ?";
 
 module.exports = { 
     WATER_GETALL,
     WATER_LAST_VALUE,
-    MESSAGE_CONFIG_STATUS_ACTIVE,
-    MESSAGE_CONFIG_GET_ALL,
-    MESSAGE_CONFIG_CREATE,
-    MESSAGE_CONFIG_UPDATE,
-    MESSAGE_CONFIG_DELETE
+    WATER_TWO_LAST_VALUE,
+    SUPPLIER_STATUS_ACTIVE,
+    SUPPLIER_GET_ALL,
+    SUPPLIER_CREATE,
+    SUPPLIER_UPDATE,
+    SUPPLIER_DELETE
 };

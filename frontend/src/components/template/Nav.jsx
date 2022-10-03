@@ -5,15 +5,14 @@ import { Link } from 'react-router-dom'
 export default props => 
     <aside className="menu-area">
         <nav className="menu">
-            {/* Refatorar em outro componente! */}
             <Link to="/">
-                <i className="fa fa-home"></i> Início
+                <i className="fa fa-line-chart"></i> Início
             </Link>
-            <Link to="/users" className="href">
+            <Link to="/historics" className="href">
+                <i className="fa fa-history"></i> Histórico
+            </Link>
+            <Link to="/suppliers" className="href">
                 <i className="fa fa-users"></i> Fornecedor
-            </Link>
-            <Link to="/charts" className="href">
-                <i className="fa fa-users"></i> Gráficos
             </Link>
         </nav>
     </aside>
