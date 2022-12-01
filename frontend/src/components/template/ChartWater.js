@@ -18,7 +18,7 @@ export default class ChartWater extends Component {
     };
 
   componentDidMount() {
-    fetch('http://localhost:5000/api/waters/lastValue')
+    fetch('http://localhost:5002/api/waters/lastValue')
         .then(res => res.json())
         .then(res => {
             this.setState({

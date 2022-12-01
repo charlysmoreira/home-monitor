@@ -8,7 +8,7 @@ const headerProps = {
     subtitle: "Mensagem de envio para o fornecedor"
 }
 
-const baseUrl = "http://localhost:5000/api/suppliers"
+const baseUrl = "http://localhost:5002/api/suppliers"
 const inicialStates = {
     data : { name: '', phoneNumber: '', message: '', status: 0 },
     list: []
@@ -31,11 +31,15 @@ export default class Supplier extends Component {
     save(){
         const result = this.state.data
         const method = result.id ? 'put' : 'post'
-        const url = result.id ? `${baseUrl}/${result.id}` : baseUrl
 
-        axios[method](url, result)
+        axios[method](baseUrl, result)
             .then(resp => {
-                this.setState({data: inicialStates.data, list: [resp.data, ...this.state.list]})
+                if (result.id){
+                    this.setState({data: inicialStates.data, list: this.getUpdateList(resp.data)})
+                }
+                else {
+                    this.setState({data: inicialStates.data, list: [resp.data, ...this.state.list]})
+                }
         })
     }
 

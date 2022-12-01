@@ -1,6 +1,5 @@
 const WATER_GETALL = "SELECT value, created_at FROM water";
-const WATER_LAST_VALUE = "SELECT value, created_at FROM water WHERE created_at = (SELECT MAX(created_at) FROM water)";
-const WATER_TWO_LAST_VALUE = "SELECT value FROM water ORDER BY created_at DESC LIMIT 2";
+const WATER_TWO_LAST_VALUE = "SELECT value, created_at FROM water ORDER BY created_at DESC LIMIT 2";
 
 const SUPPLIER_STATUS_ACTIVE = "SELECT * FROM supplier WHERE status = 1";
 const SUPPLIER_GET_ALL = "SELECT * FROM supplier";
@@ -10,7 +9,6 @@ const SUPPLIER_DELETE = "DELETE FROM supplier WHERE id = ?";
 
 module.exports = { 
     WATER_GETALL,
-    WATER_LAST_VALUE,
     WATER_TWO_LAST_VALUE,
     SUPPLIER_STATUS_ACTIVE,
     SUPPLIER_GET_ALL,

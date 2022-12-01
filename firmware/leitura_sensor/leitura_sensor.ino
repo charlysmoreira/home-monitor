@@ -1,16 +1,14 @@
 #include "HX711.h"
 #include <MySQL_Generic.h>
 
-#define MYSQL_DEBUG_PORT    Serial
-#define _MYSQL_LOGLEVEL_    1
 #define DOUT 14
 #define SCK 2
 
 IPAddress server(192,168,1,67);   // Ip do servidor de banco de dados
 char ssid[] = "Casa 57_(2.4g)";   // Rede wifi
-char pass[] = "******";        // Senha da rede
+char pass[] = "*********";        // Senha da rede
 char user[] = "root";             // Usuario banco de dados 
-char password[] = "******";     // Senha criada com o usuário
+char password[] = "********";     // Senha criada com o usuário
 uint16_t serverPort = 3307;       // Porta do banco MariaDb
 
 HX711 balanca;                    //Define a balanca
@@ -26,10 +24,6 @@ void setup(){
   balanca.set_scale(calibration_factor);
   balanca.tare();
   
-  while (!Serial && millis() < 5000);
-
-  MYSQL_DISPLAY1("\nInitializing ", ARDUINO_BOARD);
-  MYSQL_DISPLAY(MYSQL_MARIADB_GENERIC_VERSION);
   MYSQL_DISPLAY1("Conectando à rede: ", ssid);
   
   WiFi.begin(ssid, pass);

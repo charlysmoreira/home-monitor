@@ -8,8 +8,8 @@ const query = require('./queries');
 router.get("/lastValue", async (req, res, next) => {
   let conn;
   try {
-      const result = await db.pool.query(query.WATER_LAST_VALUE);
-      res.send(result);
+      const result = await db.pool.query(query.WATER_TWO_LAST_VALUE);
+      res.send([result[0]]);
   } catch (err) {
       throw err;
   } finally {

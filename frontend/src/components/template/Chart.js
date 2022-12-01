@@ -9,7 +9,7 @@ export default class Chart extends Component {
   };
 
   componentDidMount() {
-  fetch('http://localhost:5000/api/waters')
+  fetch('http://localhost:5002/api/waters')
       .then(res => res.json())
       .then(res => {
           this.setState({
